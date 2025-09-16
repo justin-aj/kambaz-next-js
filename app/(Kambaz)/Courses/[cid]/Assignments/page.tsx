@@ -9,12 +9,31 @@ export default function Assignments() {
         ASSIGNMENTS 40% of Total <button>+</button> </h3>
       <ul id="wd-assignment-list">
         <li className="wd-assignment-list-item">
-          <a href="/Courses/1234/Assignments/123"
-             className="wd-assignment-link" >
+          <a href="/Courses/1234/Assignments/123" className="wd-assignment-link" >
             A1 - ENV + HTML
-          </a> </li>
+          </a> 
+          <div className="wd-assignment-details">
+            Multiple Modules | <b>Not available until</b> May 6 at 12:00am | <br />
+            <b>Due</b> May 13 at 11:59pm | 100 pts
+          </div>
+        </li>
         <li className="wd-assignment-list-item">
-          {/* Complete On Your Own */}
+          <a href="/Courses/1234/Assignments/124" className="wd-assignment-link">
+            A2 - CSS + BOOTSTRAP
+          </a>
+          <div className="wd-assignment-details">
+            Multiple Modules | <b>Not available until</b> May 13 at 12:00am | <br />
+            <b>Due</b> May 20 at 11:59pm | 100 pts
+          </div>
+        </li>
+        <li className="wd-assignment-list-item">
+          <a href="/Courses/1234/Assignments/125" className="wd-assignment-link">
+            A3 - JS + REACT
+          </a>
+            <div className="wd-assignment-details">
+            Multiple Modules | <b>Not available until</b> May 20 at 12:00am | <br />
+            <b>Due</b> May 27 at 11:59pm | 100 pts
+          </div>
         </li>
       </ul>
     </div>

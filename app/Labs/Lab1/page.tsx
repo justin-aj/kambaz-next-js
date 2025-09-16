@@ -56,7 +56,11 @@ export default function Lab1() {
             </ol>
             My favorite recipe:
             <ol id="wd-your-favorite-recipe">
-                {/* complete on your own */}
+            <li>Soak 2 cups idli rice and 1 cup urad dal separately for 4-6 hours.</li>
+              <li>Grind to a smooth batter, combine, add salt, and ferment overnight.</li>
+              <li>Heat a tawa, spread a ladle of batter thin, and drizzle ghee.</li>
+              <li>Spread spicy potato masala; roast until the dosa turns crisp.</li>
+              <li>Fold and serve with coconut chutney and sambar.</li>
             </ol>
             <h5>Unordered List Tag</h5>
                 My favorite books (in no particular order)
@@ -69,7 +73,11 @@ export default function Lab1() {
                 </ul>
                 Your favorite books (in no particular order)
                 <ul id="wd-your-books">
-                {/* complete on your own */}
+                <li>Malgudi Days</li>
+                  <li>Ponniyin Selvan</li>
+                  <li>The God of Small Things</li>
+                  <li>Goat Days (Aadujeevitham)</li>
+                  <li>One Part Woman</li>
                 </ul>
         </div>
         <div id="wd-tables">
@@ -99,50 +107,50 @@ export default function Lab1() {
                 <tr>
                 <td>Q3</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/12/21</td>
+                <td>67</td>
                 </tr>
                 <tr>
                 <td>Q4</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/15/21</td>
+                <td>35</td>
                 </tr>
                 <tr>
                 <td>Q5</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/19/21</td>
+                <td>86</td>
                 </tr>
                 <tr>
                 <td>Q6</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/22/21</td>
+                <td>64</td>
                 </tr>
                 <tr>
                 <td>Q7</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/24/21</td>
+                <td>85</td>
                 </tr>
                 <tr>
                 <td>Q8</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/26/21</td>
+                <td>96</td>
                 </tr>
                 <tr>
                 <td>Q9</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/27/21</td>
+                <td>74</td>
                 </tr>
                 <tr>
                 <td>Q10</td>
                 <td>CSS</td>
-                <td>2/10/21</td>
-                <td>90</td>
+                <td>2/31/21</td>
+                <td>85</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -258,11 +266,11 @@ export default function Lab1() {
                     value="2000-01-21"
                     id="wd-text-fields-dob"/><br/>
                 <h4>Anchor tag</h4>
-                Please
-                <a href="https://www.lipsum.com" id="wd-lipsum">click here</a>
+                Please{" "}
+                <a href="https://www.lipsum.com" id="wd-lipsum">click here</a>{" "}
                 to get dummy text<br/>
-                Please
-                <a href="https://github.com/justin-aj" id="wd-github">click here</a>
+                Please{" "}
+                <a href="https://github.com/justin-aj" id="wd-github">click here</a>{" "}
                 to go to my repository<br/>
             </form>
         </div>
