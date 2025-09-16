@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## About this project
+This is the Kambaz application, an online learning MS.
+
+## Student Info
+- Name: Ajin Frank Justin
+- Section: CS5610.19730.202610
+
 ## Getting Started
 
 First, run the development server:
