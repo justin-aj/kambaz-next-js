@@ -57,11 +57,74 @@ export default function Modules() {
           </ul>
         </li>
         <li className="wd-module">
-          <div className="wd-title">Week 2</div>
+          <div className="wd-title">Week 2 - CSS Styling and Responsive Layouts</div>
+          <ul className="wd-lessons">
+            <li className="wd-lesson">
+              <span className="wd-title">LEARNING OBJECTIVES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Style pages using CSS selectors and the box model</li>
+                <li className="wd-content-item">Create responsive layouts with Flexbox and Grid</li>
+                <li className="wd-content-item">Use Bootstrap components and utilities</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">READING</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Full Stack Developer - Chapter 3 - Styling with CSS</li>
+                <li className="wd-content-item">Full Stack Developer - Chapter 4 - Responsive Layouts & Bootstrap</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">CSS Selectors and Box Model</li>
+                <li className="wd-content-item">Flexbox and CSS Grid</li>
+                <li className="wd-content-item">Bootstrap Overview</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">ASSIGNMENT</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">A1: Build a responsive profile/portfolio page</li>
+              </ul>
+            </li>
+          </ul>
         </li>
         <li className="wd-module">
-          <div className="wd-title">Week 3</div>
+          <div className="wd-title">Week 3 - JavaScript, DOM, and Intro to React</div>
+          <ul className="wd-lessons">
+            <li className="wd-lesson">
+              <span className="wd-title">LEARNING OBJECTIVES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Write JavaScript using ES6 syntax</li>
+                <li className="wd-content-item">Manipulate the DOM and handle events</li>
+                <li className="wd-content-item">Understand React components, props, and state (intro)</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">READING</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Full Stack Developer - Chapter 5 - JavaScript</li>
+                <li className="wd-content-item">Full Stack Developer - Chapter 6 - React Basics</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">JavaScript Fundamentals and ES6</li>
+                <li className="wd-content-item">DOM Manipulation and Events</li>
+                <li className="wd-content-item">React: Components and Props</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">ASSIGNMENT</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">A2: Build a TODO app (DOM version), then refactor to React</li>
+              </ul>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
-);}
+  );
+}
