@@ -14,10 +14,17 @@ import { Graduate } from "next/font/google";
 import GridLayout from "./GridLayout";
 import Flexbox from "./Flex";
 import ReactIconsSampler from "./ReactIcons";
+import { Container } from "react-bootstrap";
+import BootstrapGrids from "./BootstrapGrids";
+import ScreenSizeLabel from "./ScreenSizeLabel";
+import BootstrapTables from "./BootstrapTables";
+import BootstrapLists from "./BootstrapLists";
+import BootstrapForms from "./BootstrapForms";
+import BootstrapNavigation from "./BootstrapNavigation";
 
 export default function Lab2() {
   return (
-    <div id="wd-lab2">
+    <Container>
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>
       <p>
@@ -81,4 +88,12 @@ Here's another paragraph using a different ID and a different look and
       <GridLayout />
       <Flexbox />
       <ReactIconsSampler />
-    </div>);}
+      <BootstrapGrids />
+      <ScreenSizeLabel />
+      <BootstrapTables />
+      <BootstrapLists />
+      <BootstrapForms />
+      <BootstrapNavigation />
+    </Container>
+  );
+}
