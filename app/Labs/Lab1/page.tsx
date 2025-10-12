@@ -182,7 +182,7 @@ export default function Lab1() {
                 <label htmlFor="wd-text-fields-username">Username:</label>
                 <input placeholder="jdoe" id="wd-text-fields-username" /> <br />
                 <label htmlFor="wd-text-fields-password">Password:</label>
-                <input type="password" value="123@#$asd" id="wd-text-fields-password" />
+                <input type="password" value="123@#$asd" id="wd-text-fields-password" readOnly />
                 <br />
                 <label htmlFor="wd-text-fields-first-name">First name:</label>
                 <input type="text" title="John" id="wd-text-fields-first-name" /> <br />
@@ -190,7 +190,7 @@ export default function Lab1() {
                 <input type="text" placeholder="Doe"
                     value="Wonderland"
                     title="The last name"
-                    id="wd-text-fields-last-name" />
+                    id="wd-text-fields-last-name" readOnly />
                 <h5>Text boxes</h5>
                     <label>Biography:</label><br />
                 <textarea id="wd-textarea" cols={30} rows={10}>
