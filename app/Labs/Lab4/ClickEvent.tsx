@@ -1,12 +1,11 @@
+"use client"
+const hello = () => {
+  alert("Hello World!");
+};
+const lifeIs = (good: string) => {
+  alert(`Life is ${good}`);
+};
 export default function ClickEvent() {
-  const hello = () => {
-    alert("Hello World!");
-  };
-  
-  const lifeIs = (good: string) => {
-    alert(`Life is ${good}`);
-  };
-  
   return (
     <div id="wd-click-event">
       <h2>Click Event</h2>
@@ -23,5 +22,4 @@ export default function ClickEvent() {
       </button>
       <hr/>
     </div>
-  );
-}
+);}
