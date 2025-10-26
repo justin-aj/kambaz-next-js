@@ -28,8 +28,8 @@ export default function Modules() {
       <br /><br /><br /><br />
       <ListGroup className="rounded-0" id="wd-modules">
         {modules
-          .filter((module) => module.course === cid)
-          .map((module) => (
+          .filter((module: any) => module.course === cid)
+          .map((module: any) => (
             <ListGroupItem key={module._id} className="wd-module p-0 mb-5 fs-5 border-gray">
               <div className="wd-title p-3 ps-2 bg-secondary">
                 <BsGripVertical className="me-2 fs-3" />
