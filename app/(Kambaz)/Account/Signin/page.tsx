@@ -1,7 +1,26 @@
+"use client";
 import Link from "next/link";
-import { Button, Col, Form, FormCheck, FormControl, FormLabel, FormSelect, InputGroup, Row } from "react-bootstrap";
+import { redirect } from "next/dist/client/components/navigation";
+import { setCurrentUser } from "../reducer";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import * as db from "../../Database";
+import { FormControl, Button, Form } from "react-bootstrap";
 
 export default function Signin() {
+  const [credentials, setCredentials] = useState<any>({});
+  const dispatch = useDispatch();
+  const signin = () => {
+    const user = db.users.find(
+      (u: any) =>
+        u.username === credentials.username &&
+        u.password === credentials.password
+    );
+    if (!user) return;
+    dispatch(setCurrentUser(user));
+    redirect("/Dashboard");
+  };
+
   return (
     <div id="wd-signin-screen" className="p-4">
       <h1 className="mb-4">Sign in</h1>
@@ -10,7 +29,8 @@ export default function Signin() {
           <FormControl
             id="wd-username"
             type="text"
-            defaultValue={"alice"}
+            defaultValue={credentials.username}
+             onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
             placeholder="username"
             className="form-control"
           />
@@ -19,18 +39,15 @@ export default function Signin() {
           <FormControl
             id="wd-password"
             type="password"
-            defaultValue={"123"}
+            defaultValue={credentials.password}
+             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             placeholder="password"
             className="form-control"
           />
         </div>
-        <Link
-          id="wd-signin-btn"
-          href="/Account/Profile"
-          className="btn btn-primary w-100 mb-2 text-decoration-none d-block text-center"
-        >
+        <Button onClick={signin} id="wd-signin-btn" className="w-100" >
           Sign in
-        </Link>
+        </Button>
         <div className="text-center">
           <Link id="wd-signup-link" href="/Account/Signup" className="text-decoration-none">
             Sign up

@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { assignments } from "../../../Database";
+import { useSelector } from "react-redux";
 import AssignmentsControls from "./AssignmentsControls";
 import AssignmentsHeader from "./AssignmentsHeader";
 import AssignmentItem from "./AssignmentItem";
@@ -8,7 +8,8 @@ import "./styles.css";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const courseAssignments = assignments.filter((assignment) => assignment.course === cid);
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid);
 
   return (
     <div id="wd-assignments">
@@ -18,7 +19,7 @@ export default function Assignments() {
         <AssignmentsHeader />
         
         <div className="list-group list-group-flush">
-          {courseAssignments.map((assignment) => (
+          {courseAssignments.map((assignment: any) => (
             <AssignmentItem key={assignment._id} assignment={assignment} />
           ))}
         </div>

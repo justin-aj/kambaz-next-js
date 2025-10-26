@@ -1,38 +1,55 @@
+import { useState } from "react";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa6";
+import ModuleEditor from "./ModuleEditor";
 import GreenCheckmark from "./GreenCheckmark";
-export default function ModulesControls() {
- return (
-   <div id="wd-modules-controls" className="text-nowrap d-flex flex-column flex-md-row justify-content-end">
-     <Button variant="secondary" size="lg" className="me-1 mb-2 mb-md-0" id="wd-collapse-all">
-       Collapse All
-     </Button>
-     <Button variant="secondary" size="lg" className="me-1 mb-2 mb-md-0" id="wd-view-progress">
-       View Progress
-     </Button>
-     <Dropdown className="me-2 mb-2 mb-md-0">
-       <DropdownToggle variant="secondary" size="lg" id="wd-publish-all-btn">
-         <GreenCheckmark /> Publish All
-       </DropdownToggle>
-       <DropdownMenu>
-         <DropdownItem id="wd-publish-all-modules-and-items">
-           <GreenCheckmark /> Publish all modules and items
-         </DropdownItem>
-         <DropdownItem id="wd-publish-modules-only">
-           <GreenCheckmark /> Publish modules only
-         </DropdownItem>
-         <DropdownItem id="wd-unpublish-all-modules-and-items">
-           <GreenCheckmark /> Unpublish all modules and items
-         </DropdownItem>
-         <DropdownItem id="wd-unpublish-modules-only">
-           <GreenCheckmark /> Unpublish modules only
-         </DropdownItem>
-       </DropdownMenu>
-     </Dropdown>
-     <Button variant="danger" size="lg" className="me-1 mb-2 mb-md-0" id="wd-add-module-btn">
-       <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-       Module
-     </Button>
-   </div>
-);}
+
+export default function ModulesControls(
+  { moduleName, setModuleName, addModule }:
+  { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <div id="wd-modules-controls" className="text-nowrap d-flex flex-column flex-md-row justify-content-end">
+      <Button variant="danger" onClick={handleShow} >
+        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+        Module
+      </Button>
+
+      <Button variant="secondary" size="lg" className="me-1 mb-2 mb-md-0" id="wd-collapse-all">
+        Collapse All
+      </Button>
+      <Button variant="secondary" size="lg" className="me-1 mb-2 mb-md-0" id="wd-view-progress">
+        View Progress
+      </Button>
+      <Dropdown className="me-2 mb-2 mb-md-0">
+        <DropdownToggle variant="secondary" size="lg" id="wd-publish-all-btn">
+          <GreenCheckmark /> Publish All
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem id="wd-publish-all-modules-and-items">
+            <GreenCheckmark /> Publish all modules and items
+          </DropdownItem>
+          <DropdownItem id="wd-publish-modules-only">
+            <GreenCheckmark /> Publish modules only
+          </DropdownItem>
+          <DropdownItem id="wd-unpublish-all-modules-and-items">
+            <GreenCheckmark /> Unpublish all modules and items
+          </DropdownItem>
+          <DropdownItem id="wd-unpublish-modules-only">
+            <GreenCheckmark /> Unpublish modules only
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Button variant="danger" size="lg" className="me-1 mb-2 mb-md-0" id="wd-add-module-btn">
+        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+        Module
+      </Button>
+      <ModuleEditor show={show} handleClose={handleClose} dialogTitle="Add Module"
+        moduleName={moduleName} setModuleName={setModuleName} addModule={addModule} />
+    </div>
+  );
+}
 
