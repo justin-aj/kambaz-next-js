@@ -13,11 +13,6 @@ export default function ModulesControls(
 
   return (
     <div id="wd-modules-controls" className="text-nowrap d-flex flex-column flex-md-row justify-content-end">
-      <Button variant="danger" onClick={handleShow} >
-        <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-        Module
-      </Button>
-
       <Button variant="secondary" size="lg" className="me-1 mb-2 mb-md-0" id="wd-collapse-all">
         Collapse All
       </Button>
@@ -43,7 +38,7 @@ export default function ModulesControls(
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <Button variant="danger" size="lg" className="me-1 mb-2 mb-md-0" id="wd-add-module-btn">
+      <Button variant="danger" size="lg" className="me-1 mb-2 mb-md-0" id="wd-add-module-btn" onClick={handleShow}>
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </Button>

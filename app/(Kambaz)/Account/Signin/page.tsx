@@ -1,24 +1,22 @@
 "use client";
+import * as client from "../client";
 import Link from "next/link";
-import { redirect } from "next/dist/client/components/navigation";
+import { useRouter } from "next/navigation";
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import * as db from "../../Database";
 import { FormControl, Button, Form } from "react-bootstrap";
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState<any>({});
+  const [credentials, setCredentials] = useState<any>({ username: "", password: "" });
   const dispatch = useDispatch();
-  const signin = () => {
-    const user = db.users.find(
-      (u: any) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    );
+  const router = useRouter();
+  
+  const signin = async () => {
+    const user = await client.signin(credentials);
     if (!user) return;
     dispatch(setCurrentUser(user));
-    redirect("/Dashboard");
+    router.push("/Account/Profile");
   };
 
   return (
@@ -29,8 +27,8 @@ export default function Signin() {
           <FormControl
             id="wd-username"
             type="text"
-            defaultValue={credentials.username}
-             onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+            value={credentials.username}
+            onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
             placeholder="username"
             className="form-control"
           />
@@ -39,8 +37,8 @@ export default function Signin() {
           <FormControl
             id="wd-password"
             type="password"
-            defaultValue={credentials.password}
-             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+            value={credentials.password}
+            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             placeholder="password"
             className="form-control"
           />

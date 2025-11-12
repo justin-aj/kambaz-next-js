@@ -1,9 +1,13 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCourse } from "../Courses/[cid]/reducer";
-import { enrollCourse, unenrollCourse } from "./reducer";
-import { useState } from "react";
+import { setCourses } from "../Courses/reducer";
+import { setEnrollments } from "./reducer";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import * as coursesClient from "../Courses/client";
+import * as enrollmentsClient from "./client";
+
+
 import {
   Row,
   Col,
@@ -24,6 +28,50 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const fetchCourses = useCallback(async () => {
+    try {
+      const courses = await coursesClient.fetchAllCourses();
+      console.log("Fetched courses:", courses);
+      if (courses && courses.length > 0) {
+        dispatch(setCourses(courses));
+      }
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
+  }, [dispatch]);
+
+  const fetchEnrollments = useCallback(async () => {
+    if (currentUser) {
+      try {
+        const enrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
+        console.log("Fetched enrollments:", enrollments);
+        if (enrollments && enrollments.length > 0) {
+          dispatch(setEnrollments(enrollments));
+        }
+      } catch (error) {
+        console.error("Error fetching enrollments:", error);
+      }
+    }
+  }, [currentUser, dispatch]);
+
+  const onUpdateCourse = async (course: any) => {
+    await coursesClient.updateCourse(course);
+    dispatch(setCourses(courses.map((c: any) => {
+        if (c._id === course._id) { return course; }
+        else { return c; }
+    })));
+  };
+
+  const onDeleteCourse = async (courseId: string) => {
+    await coursesClient.deleteCourse(courseId);
+    dispatch(setCourses(courses.filter((course: any) => course._id !== courseId)));
+  };
+
+  useEffect(() => {
+    fetchCourses();
+    fetchEnrollments();
+  }, [fetchCourses, fetchEnrollments]);
+
   // Filter courses based on toggle
   const filteredCourses = showAllCourses
     ? courses
@@ -35,6 +83,14 @@ export default function Dashboard() {
         )
       );
 
+  console.log("Dashboard state:", { 
+    showAllCourses, 
+    coursesLength: courses.length, 
+    enrollmentsLength: enrollments.length,
+    filteredCoursesLength: filteredCourses.length,
+    currentUser: currentUser?._id
+  });
+
   // Check if user is enrolled in a course
   const isEnrolled = (courseId: string) => {
     return enrollments.some(
@@ -44,20 +100,32 @@ export default function Dashboard() {
   };
 
   // Handle enrollment
-  const handleEnroll = (courseId: string) => {
+  const handleEnroll = async (courseId: string) => {
     console.log("Enroll clicked", { currentUser, courseId });
     if (currentUser) {
-      dispatch(enrollCourse({ userId: currentUser._id, courseId }));
+      try {
+        const enrollment = await enrollmentsClient.enrollInCourse(currentUser._id, courseId);
+        dispatch(setEnrollments([...enrollments, enrollment]));
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       console.log("No current user");
     }
   };
 
   // Handle unenrollment
-  const handleUnenroll = (courseId: string) => {
+  const handleUnenroll = async (courseId: string) => {
     console.log("Unenroll clicked", { currentUser, courseId });
     if (currentUser) {
-      dispatch(unenrollCourse({ userId: currentUser._id, courseId }));
+      try {
+        await enrollmentsClient.unenrollFromCourse(currentUser._id, courseId);
+        dispatch(setEnrollments(enrollments.filter((e: any) => 
+          !(e.user === currentUser._id && e.course === courseId)
+        )));
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       console.log("No current user");
     }
@@ -142,13 +210,7 @@ export default function Dashboard() {
                         <Button
                           onClick={(event) => {
                             event.preventDefault();
-                            if (
-                              window.confirm(
-                                `Are you sure you want to delete ${course.name}?`
-                              )
-                            ) {
-                              dispatch(deleteCourse(course._id));
-                            }
+                            onDeleteCourse(course._id);
                           }}
                           className="btn btn-danger float-end me-2"
                           id="wd-delete-course-click"
@@ -176,7 +238,11 @@ export default function Dashboard() {
                       >
                         Enroll
                       </Button>
+                      
                     )}
+                    <button onClick={onUpdateCourse} className="btn btn-secondary float-end" id="wd-update-course-click" >
+                      Update
+                  </button>
                   </CardBody>
                 </Link>
               </Card>

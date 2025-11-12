@@ -1,7 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setAssignments } from "./reducer";
+import * as client from "./client";
 import Link from "next/link";
 import { BsGripVertical } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -22,6 +23,7 @@ export default function AssignmentItem({ assignment }: {
 }) {
   const { cid } = useParams();
   const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -34,9 +36,11 @@ export default function AssignmentItem({ assignment }: {
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to remove the assignment "${assignment.title}"?`)) {
-      dispatch(deleteAssignment(assignment._id));
+      await client.deleteAssignment(assignment._id);
+      const updatedAssignments = assignments.filter((a: any) => a._id !== assignment._id);
+      dispatch(setAssignments(updatedAssignments));
     }
   };
 
