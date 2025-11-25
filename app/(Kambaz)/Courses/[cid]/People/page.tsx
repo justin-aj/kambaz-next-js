@@ -1,7 +1,6 @@
 "use client";
 import PeopleTable from "./Table";
 import { useEffect, useState } from "react";
-import * as peopleClient from "./client";
 import { useParams } from "next/navigation";
 
 
