@@ -30,13 +30,10 @@ export default function Dashboard() {
 
   const fetchCourses = useCallback(async () => {
     try {
-      const courses = await coursesClient.fetchAllCourses();
-      console.log("Fetched courses:", courses);
-      if (courses && courses.length > 0) {
-        dispatch(setCourses(courses));
-      }
+      const courses = await coursesClient.findMyCourses();
+      dispatch(setCourses(courses));
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error(error);
     }
   }, [dispatch]);
 
@@ -44,12 +41,9 @@ export default function Dashboard() {
     if (currentUser) {
       try {
         const enrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
-        console.log("Fetched enrollments:", enrollments);
-        if (enrollments && enrollments.length > 0) {
-          dispatch(setEnrollments(enrollments));
-        }
+        dispatch(setEnrollments(enrollments));
       } catch (error) {
-        console.error("Error fetching enrollments:", error);
+        console.error(error);
       }
     }
   }, [currentUser, dispatch]);
@@ -67,6 +61,11 @@ export default function Dashboard() {
     dispatch(setCourses(courses.filter((course: any) => course._id !== courseId)));
   };
 
+  const onAddNewCourse = async (course: any) => {
+    const newCourse = await coursesClient.createCourse(course);
+    dispatch(setCourses([ ...courses, newCourse ]));
+  };
+
   useEffect(() => {
     fetchCourses();
     fetchEnrollments();
@@ -82,14 +81,6 @@ export default function Dashboard() {
             enrollment.course === course._id
         )
       );
-
-  console.log("Dashboard state:", { 
-    showAllCourses, 
-    coursesLength: courses.length, 
-    enrollmentsLength: enrollments.length,
-    filteredCoursesLength: filteredCourses.length,
-    currentUser: currentUser?._id
-  });
 
   // Check if user is enrolled in a course
   const isEnrolled = (courseId: string) => {
@@ -143,7 +134,7 @@ export default function Dashboard() {
             <Button
               className="btn btn-primary float-end"
               id="wd-add-new-course-click"
-              onClick={() => router.push("/Courses/new/edit")}
+              onClick={onAddNewCourse}
             >
               Add
             </Button>

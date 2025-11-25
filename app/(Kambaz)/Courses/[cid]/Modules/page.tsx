@@ -1,6 +1,6 @@
 "use client"
 import { useParams } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
@@ -29,32 +29,18 @@ export default function Modules() {
 
   const onCreateModuleForCourse = async () => {
     if (!cid) return;
-    try {
-      const newModule = { name: moduleName, course: cid };
-      const createdModule = await client.createModuleForCourse(cid as string, newModule);
-      dispatch(setModules([...modules, createdModule]));
-      setModuleName(""); // Clear the input after successful creation
-    } catch (error: any) {
-      console.error("Error creating module:", error);
-      alert("Failed to create module. Please check the backend server.");
-    }
+    const newModule = { name: moduleName, course: cid };
+    const createdModule = await client.createModuleForCourse(cid as string, newModule);
+    dispatch(setModules([...modules, createdModule]));
   };
 
-  const fetchModules = useCallback(async () => {
-    try {
-      const modules = await client.findModulesForCourse(cid as string);
-      console.log("Fetched modules:", modules);
-      if (modules && modules.length > 0) {
-        dispatch(setModules(modules));
-      }
-    } catch (error) {
-      console.error("Error fetching modules:", error);
-    }
-  }, [cid, dispatch]);
-
+  const fetchModules = async () => {
+    const modules = await client.findModulesForCourse(cid as string);
+    dispatch(setModules(modules));
+  };
   useEffect(() => {
     fetchModules();
-  }, [fetchModules]);
+  }, []);
   return (
     <div>
       <ModulesControls
