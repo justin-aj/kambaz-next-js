@@ -23,15 +23,29 @@ import { useRouter } from "next/navigation";
 export default function Dashboard() {
   const { courses } = useSelector((state: any) => state.coursesReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+  // Default enrollments to empty array if not present
+  const enrollmentsSelector = useSelector((state: any) => state.enrollmentsReducer);
+  const enrollments = enrollmentsSelector && Array.isArray(enrollmentsSelector.enrollments) ? enrollmentsSelector.enrollments : [];
   const [showAllCourses, setShowAllCourses] = useState(true);
+    // Debug: log initial state
+    console.log('Dashboard loaded', { showAllCourses });
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const fetchCourses = useCallback(async () => {
+  const fetchCourses = useCallback(async (all: boolean) => {
     try {
-      const courses = await coursesClient.findMyCourses();
+      let courses;
+      if (all) {
+        courses = await coursesClient.fetchAllCourses();
+        console.log('API response from fetchAllCourses:', courses);
+      } else {
+        courses = await coursesClient.findMyCourses();
+        console.log('API response from findMyCourses:', courses);
+      }
       dispatch(setCourses(courses));
+      setTimeout(() => {
+        console.log('Redux courses state after dispatch:', courses);
+      }, 0);
     } catch (error) {
       console.error(error);
     }
@@ -67,27 +81,25 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchCourses();
+    fetchCourses(showAllCourses);
     fetchEnrollments();
-  }, [fetchCourses, fetchEnrollments]);
+  }, [fetchCourses, fetchEnrollments, showAllCourses]);
 
-  // Filter courses based on toggle
-  const filteredCourses = showAllCourses
-    ? courses
-    : courses.filter((course: any) =>
-        enrollments.some(
-          (enrollment: any) =>
-            enrollment.user === currentUser?._id &&
-            enrollment.course === course._id
-        )
-      );
+  // Courses state now always matches selected view
+  const filteredCourses = courses;
 
-  // Check if user is enrolled in a course
+  // Check if user is enrolled in a course (matches courses state)
   const isEnrolled = (courseId: string) => {
-    return enrollments.some(
-      (enrollment: any) =>
-        enrollment.user === currentUser?._id && enrollment.course === courseId
-    );
+    if (showAllCourses) {
+      // Use enrollments array to check
+      return enrollments.some(
+        (enrollment: any) =>
+          enrollment.user === currentUser?._id && enrollment.course === courseId
+      );
+    } else {
+      // Use courses array (enrolled courses only)
+      return courses.some((course: any) => course._id === courseId);
+    }
   };
 
   // Handle enrollment
@@ -95,8 +107,10 @@ export default function Dashboard() {
     console.log("Enroll clicked", { currentUser, courseId });
     if (currentUser) {
       try {
-        const enrollment = await enrollmentsClient.enrollInCourse(currentUser._id, courseId);
-        dispatch(setEnrollments([...enrollments, enrollment]));
+        await enrollmentsClient.enrollInCourse(currentUser._id, courseId);
+        // Re-fetch enrollments for guaranteed UI update
+        const updatedEnrollments = await enrollmentsClient.findEnrollmentsForUser(currentUser._id);
+        dispatch(setEnrollments(updatedEnrollments));
       } catch (error) {
         console.error(error);
       }
@@ -145,13 +159,18 @@ export default function Dashboard() {
 
       <Button
         className="btn btn-primary float-end mb-3"
-        onClick={() => setShowAllCourses(!showAllCourses)}
+        onClick={() => {
+          console.log('All Courses button clicked', { showAllCourses });
+          setShowAllCourses(!showAllCourses);
+        }}
       >
         {showAllCourses ? "Enrolled Courses" : "All Courses"}
       </Button>
 
       <h2 id="wd-dashboard-published">
-        Published Courses ({filteredCourses.length})
+          Published Courses ({filteredCourses.length})
+          {/* Debug: log filtered courses */}
+          {console.log('Filtered courses', { showAllCourses, filteredCourses, courses, enrollments })}
       </h2>
       <hr />
 

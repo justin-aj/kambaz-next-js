@@ -13,7 +13,7 @@ export default function CourseNavigation() {
     { label: "Assignments", path: "Assignments" },
     { label: "Quizzes", path: "Home" },
     { label: "Grades", path: "Home" },
-    { label: "People", path: "People/Table" }
+    { label: "People", path: "People" }
   ];
   
   return (
