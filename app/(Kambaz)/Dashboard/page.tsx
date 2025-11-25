@@ -39,8 +39,16 @@ export default function Dashboard() {
         courses = await coursesClient.fetchAllCourses();
         console.log('API response from fetchAllCourses:', courses);
       } else {
-        courses = await coursesClient.findMyCourses();
-        console.log('API response from findMyCourses:', courses);
+        // Get all courses and filter for enrolled ones
+        const allCourses = await coursesClient.fetchAllCourses();
+        console.log('All courses:', allCourses);
+        let enrolledIds: string[] = [];
+        if (currentUser?._id) {
+          enrolledIds = await coursesClient.findCoursesForUser(currentUser._id);
+          console.log('Enrolled course IDs:', enrolledIds);
+        }
+        courses = allCourses.filter((course: any) => enrolledIds.includes(course._id));
+        console.log('Filtered enrolled courses:', courses);
       }
       dispatch(setCourses(courses));
       setTimeout(() => {
@@ -49,7 +57,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error(error);
     }
-  }, [dispatch]);
+  }, [dispatch, currentUser]);
 
   const fetchEnrollments = useCallback(async () => {
     if (currentUser) {

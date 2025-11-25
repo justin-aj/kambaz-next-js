@@ -61,3 +61,7 @@ export const findUsersForCourse = async (courseId: string) => {
  const response = await axios.get(`${COURSES_API}/${courseId}/users`);
  return response.data;
 };
+export const findCoursesForUser = async (userId: string) => {
+  const { data } = await axiosWithCredentials.get(`${USERS_API}/${userId}/courses`);
+  return data;
+};

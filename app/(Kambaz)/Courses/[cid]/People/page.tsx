@@ -3,20 +3,20 @@
 import PeopleTable from "./Table";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { findUsersForCourse } from "../../client";
-
+import { findUserById } from "../../../Account/client";
 
 export default function PeoplePage() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
   const { cid } = useParams();
   const fetchUsers = async () => {
-    try {
-      const data = await findUsersForCourse(cid as string);
-      setUsers(data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      setUsers([]);
-    }
+    // Get array of user IDs
+    const { findUsersForCourse } = await import("../../client");
+    const ids = await findUsersForCourse(cid as string);
+
+    // Fetch full user objects for each ID
+    const userPromises = ids.map((id: string) => findUserById(id));
+    const userObjects = await Promise.all(userPromises);
+    setUsers(userObjects);
   };
   useEffect(() => {
     if (cid) fetchUsers();

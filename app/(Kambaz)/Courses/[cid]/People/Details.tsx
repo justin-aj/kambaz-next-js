@@ -6,7 +6,7 @@ import Link from "next/link";
 import * as client from "../../../Account/client";
 import { FaPencil } from "react-icons/fa6";
 import { FormControl } from "react-bootstrap";
-// import { findUsersForCourse } from "../../client"; // Not needed for single user
+// import { findUserById } from "../../Account/client"; // Not needed, already imported as client.findUserById
 
 export default function PeopleDetails({ uid, onClose }: { uid: string | null; onClose: () => void; }) {
     console.log('PeopleDetails mounted with uid:', uid);
