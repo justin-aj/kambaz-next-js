@@ -6,27 +6,42 @@ import Link from "next/link";
 import * as client from "../../../Account/client";
 import { FaPencil } from "react-icons/fa6";
 import { FormControl } from "react-bootstrap";
+// import { findUsersForCourse } from "../../client"; // Not needed for single user
 
 export default function PeopleDetails({ uid, onClose }: { uid: string | null; onClose: () => void; }) {
+    console.log('PeopleDetails mounted with uid:', uid);
   const [user, setUser] = useState<any>({});
   const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
+  // const { cid } = useParams(); // Not needed
+
   const saveUser = async () => {
+    console.log('Saving user:', user, 'with new name:', name);
     const [firstName, lastName] = name.split(" ");
     const updatedUser = { ...user, firstName, lastName };
     await client.updateUser(updatedUser);
+    console.log('User updated:', updatedUser);
     setUser(updatedUser);
     setEditing(false);
     onClose();
   };
 
   const fetchUser = async () => {
-    if (!uid) return;
-    const user = await client.findUserById(uid);
-    setUser(user);
+    console.log('Fetching user with uid:', uid);
+    try {
+      if (!uid) return;
+      const data = await client.findUserById(uid);
+      setUser(data);
+      console.log('Fetched user data:', data);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setUser({});
+    }
   };
   const deleteUser = async (uid: string) => {
+    console.log('Deleting user with uid:', uid);
     await client.deleteUser(uid);
+    console.log('User deleted:', uid);
     onClose();
   };
   useEffect(() => {
