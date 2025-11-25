@@ -1,17 +1,22 @@
 "use client";
+
 import PeopleTable from "./Table";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { findUsersForCourse } from "../../client";
 
 
 export default function PeoplePage() {
   const [users, setUsers] = useState([]);
   const { cid } = useParams();
   const fetchUsers = async () => {
-    // Import from Courses/client.ts
-    const { findUsersForCourse } = await import("../../client");
-    const data = await findUsersForCourse(cid as string);
-    setUsers(data);
+    try {
+      const data = await findUsersForCourse(cid as string);
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setUsers([]);
+    }
   };
   useEffect(() => {
     if (cid) fetchUsers();
