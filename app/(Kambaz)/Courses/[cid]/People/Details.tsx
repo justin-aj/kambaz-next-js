@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaCheck } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import * as client from "../../../Account/client";
 import { FaPencil } from "react-icons/fa6";
-import { FaCheck, FaUserCircle } from "react-icons/fa";
 import { FormControl } from "react-bootstrap";
 
 export default function PeopleDetails({ uid, onClose }: { uid: string | null; onClose: () => void; }) {
