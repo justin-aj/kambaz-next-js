@@ -11,9 +11,15 @@ export default function Users() {
  const [name, setName] = useState("");
   const filterUsersByName = async (name: string) => {
     setName(name);
+    console.log('Filtering by name:', name);
     if (name) {
-      const users = await client.findUsersByPartialName(name);
-      setUsers(users);
+      try {
+        const filteredUsers = await client.findUsersByPartialName(name);
+        console.log('Filtered users:', filteredUsers);
+        setUsers(filteredUsers);
+      } catch (error) {
+        console.error('Error filtering users:', error);
+      }
     } else {
       fetchUsers();
     }
@@ -50,19 +56,28 @@ export default function Users() {
  useEffect(() => {
    fetchUsers();
  }, [uid]);
- return (
+   return (
    <div>
+    <h1>Users</h1>
     <button onClick={createUser} className="float-end btn btn-danger wd-add-people">
         <FaPlus className="me-2" />
-        Users
+        Add User
       </button>
+      <FormControl 
+        value={name}
+        onChange={(e) => filterUsersByName(e.target.value)} 
+        placeholder="Search people"
+        className="float-start w-25 me-2 wd-filter-by-name" 
+      />
      <select value={role} onChange={(e) =>filterUsersByRole(e.target.value)}
               className="form-select float-start w-25 wd-select-role" >
-        <option value="">All Roles</option>    <option value="STUDENT">Students</option>
-        <option value="TA">Assistants</option> <option value="FACULTY">Faculty</option>
+        <option value="">All Roles</option>    
+        <option value="STUDENT">Students</option>
+        <option value="TA">Assistants</option> 
+        <option value="FACULTY">Faculty</option>
         <option value="ADMIN">Administrators</option>
-        <FormControl onChange={(e) => filterUsersByName(e.target.value)} placeholder="Search people"
-             className="float-start w-25 me-2 wd-filter-by-name" />
       </select>
+      <div style={{ clear: "both" }}></div>
+      <PeopleTable users={users} fetchUsers={fetchUsers} />
    </div>
 );}
