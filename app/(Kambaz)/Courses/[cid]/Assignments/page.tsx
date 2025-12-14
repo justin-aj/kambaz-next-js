@@ -1,42 +1,42 @@
-import Link from "next/link";
+"use client";
+import { useParams } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useCallback } from "react";
+import AssignmentsControls from "./AssignmentsControls";
+import AssignmentsHeader from "./AssignmentsHeader";
+import AssignmentItem from "./AssignmentItem";
+import { setAssignments } from "./reducer";
+import * as client from "./client";
+import "./styles.css";
 
 export default function Assignments() {
+  const { cid } = useParams();
+  const dispatch = useDispatch();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid);
+
+  const fetchAssignments = useCallback(async () => {
+    const assignments = await client.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  }, [cid, dispatch]);
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [fetchAssignments]);
+
   return (
     <div id="wd-assignments">
-      <input placeholder="Search for Assignments"
-             id="wd-search-assignment" />
-      <button id="wd-add-assignment-group">+ Group</button>
-      <button id="wd-add-assignment">+ Assignment</button>
-      <h3 id="wd-assignments-title">
-        ASSIGNMENTS 40% of Total <button>+</button> </h3>
-      <ul id="wd-assignment-list">
-        <li className="wd-assignment-list-item">
-          <Link href="/Courses/1234/Assignments/123" className="wd-assignment-link" >
-            A1 - ENV + HTML
-          </Link> 
-          <div className="wd-assignment-details">
-            Multiple Modules | <b>Not available until</b> May 6 at 12:00am | <br />
-            <b>Due</b> May 13 at 11:59pm | 100 pts
-          </div>
-        </li>
-        <li className="wd-assignment-list-item">
-          <Link href="/Courses/1234/Assignments/124" className="wd-assignment-link">
-            A2 - CSS + BOOTSTRAP
-          </Link>
-          <div className="wd-assignment-details">
-            Multiple Modules | <b>Not available until</b> May 13 at 12:00am | <br />
-            <b>Due</b> May 20 at 11:59pm | 100 pts
-          </div>
-        </li>
-        <li className="wd-assignment-list-item">
-          <Link href="/Courses/1234/Assignments/125" className="wd-assignment-link">
-            A3 - JS + REACT
-          </Link>
-          <div className="wd-assignment-details">
-            Multiple Modules | <b>Not available until</b> May 20 at 12:00am | <br />
-            <b>Due</b> May 27 at 11:59pm | 100 pts
-          </div>
-        </li>
-      </ul>
+      <AssignmentsControls />
+      
+      <div className="border rounded-0">
+        <AssignmentsHeader />
+        
+        <div className="list-group list-group-flush">
+          {courseAssignments.map((assignment: any) => (
+            <AssignmentItem key={assignment._id} assignment={assignment} />
+          ))}
+        </div>
+      </div>
     </div>
-);}
+  );
+}

@@ -1,0 +1,32 @@
+/* Assignments specific styles */
+.wd-search-container {
+  max-width: 300px;
+}
+
+.wd-assignment-item {
+  border-left: 4px solid #198754 !important;
+}
+
+.wd-assignment-title {
+  font-weight: bold;
+  color: #000;
+}
+
+.wd-assignment-title:hover {
+  color: #0056b3;
+}
+
+.wd-assignment-details {
+  font-size: 0.875rem;
+  color: #000;
+  margin-top: 0.25rem;
+}
+
+.wd-grip-icon {
+  color: #6c757d;
+  font-size: 1.25rem;
+}
+
+.wd-control-button {
+  padding: 0.25rem;
+}
